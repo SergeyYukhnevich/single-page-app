@@ -27,15 +27,16 @@ module.exports = {
                     lastLoginDate: new Date()
                 }, function (err, createdUser) {
                     if (err) {
-                        sails.log.error(err);
-                        sails.log.error(err.invalidAttributes);
-                        res.negotiate(err);
+                        return res.badRequest(err.invalidAttributes);
                     }
-
                     req.session.userId = createdUser.id;
-
                     return res.json({
-                        user: createdUser
+                        id: createdUser.id,
+                        firstName: createdUser.firstName,
+                        lastName: createdUser.lastName,
+                        email: createdUser.email,
+                        lastLoginDate: createdUser.lastLoginDate,
+                        role: createdUser.role
                     });
                 });
             }
@@ -63,7 +64,14 @@ module.exports = {
                 },
                 success: function (){
                     req.session.userId = user.id;
-                    return res.ok();
+                    return res.json({
+                        id: user.id,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email,
+                        lastLoginDate: user.lastLoginDate,
+                        role: user.role
+                    });
                 }
             });
         });
@@ -88,10 +96,6 @@ module.exports = {
 
     },
 
-    forgotPassword: function (req, res) {
-
-    },
-
     isAuthorized: function (req, res) {
 
         if (!req.session.userId) return res.redirect('/login');
@@ -100,14 +104,12 @@ module.exports = {
             if (err) return res.negotiate(err);
             if (!user) return res.redirect('/login');
             return res.json({
-                user: {
-                    id: user.id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    email: user.email,
-                    lastLoginDate: user.lastLoginDate,
-                    role: user.role
-                }
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                lastLoginDate: user.lastLoginDate,
+                role: user.role
             });
         });
 

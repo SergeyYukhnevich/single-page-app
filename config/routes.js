@@ -36,13 +36,11 @@ module.exports.routes = {
   'GET /': 'UserController.isAuthorized',
   'GET /login': { view: 'login' },
   'GET /signup': { view: 'signup' },
-  'GET /login/forgot-password': { view: 'forgot-password' },
 
   // handling POST requests
   'POST /login': 'UserController.login',
   'POST /logout': 'UserController.logout',
-  'POST /signup': 'UserController.signup',
-  'POST /login/forgot-password': 'UserController.forgotPassword'
+  'POST /signup': 'UserController.signup'
 
   /***************************************************************************
   *                                                                          *

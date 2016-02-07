@@ -1,13 +1,16 @@
 <%
     block('title', 'Create account');
-    script('/js/controllers/SignupController.js');
 %>
 <div class="content" ng-controller="SignupController" ng-cloak>
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <div class="well" id="signup">
+            <div class="well m-top-50">
                 <form ng-submit="submitSignupForm()" name="signup" class="form-horizontal">
-                    <legend class="text-center">Create an account</legend>
+                    <h3 class="text-center">Create an account</h3>
+                    <div class="alert alert-dismissible alert-danger" ng-show="showAlert">
+                        <button type="button" class="close" ng-click="toggleAlert()">×</button>
+                        <span>{{ signupForm.error.email[0].message }}</span>
+                    </div>
                     <fieldset>
                         <div class="form-group has-feedback"
                              ng-class="{'has-error':signup.firstName.$invalid && signup.firstName.$dirty}">
@@ -97,7 +100,7 @@
                                         ng-model="signupForm.confirmPassword"
                                         required>
                                 <span ng-show="signup.password.$dirty" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
-                                <span class="help-block has-error" ng-show="signup.confirmPassword.$dirty">
+                                <span class="help-block has-error" ng-show="signup.confirmPassword.$dirty && signup.confirmPassword.$invalid">
                                     <span ng-show="signup.password.$error.compareTo">Password must match.</span>
                                     <span ng-show="signup.confirmPassword.$error.required">Confirmation password is required.</span>
                                 </span>

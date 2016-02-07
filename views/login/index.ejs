@@ -1,13 +1,16 @@
 <%
     block('title', 'Please login!');
-    script('/js/controllers/LoginController.js');
 %>
 <div class="content" ng-controller="LoginController" ng-cloak>
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <div class="well" id="signup">
+            <div class="well m-top-50">
                 <form ng-submit="submitLoginForm()" name="login" class="form-horizontal">
-                    <legend class="text-center">Please login!</legend>
+                    <h3 class="text-center">Please login!</h3>
+                    <div class="alert alert-dismissible alert-danger" ng-show="showAlert">
+                        <button type="button" class="close" ng-click="toggleAlert()">×</button>
+                        <span>loginForm.error</span>
+                    </div>
                     <fieldset>
                         <div class="form-group has-feedback"
                              ng-class="{'has-error':login.email.$invalid && login.email.$dirty}">
