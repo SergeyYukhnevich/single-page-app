@@ -50,6 +50,9 @@ module.exports.policies = {
 	// }
 
   UserController: {
-    '*': true
+    '*': 'isAuthorized',
+    'isAuthorized': true,
+    'login': true,
+    'signup': true
   }
 };
