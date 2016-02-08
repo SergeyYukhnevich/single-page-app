@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to our SPA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--STYLES-->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/flatly/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <!--STYLES END-->
+    <script type="text/javascript">
+        window.SAILS_LOCALS = { _csrf: "<%= _csrf %>" };
+        window.USER = {
+            id: '<%= user.id %>',
+            firstName: '<%= user.firstName %>',
+            lastName: '<%= user.lastName %>',
+            email: '<%= user.email %>',
+            role: '<%= user.role %>',
+            lastLoginDate: '<%= user.lastLoginDate %>'
+        };
+    </script>
+</head>
+<body ng-app="privateApp">
+<div class="container" ng-view></div>
+
+<!--SCRIPTS-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-route.min.js"></script>
+<script src="/js/private/app.js"></script>
+<script src="/js/private/controllers.js"></script>
+<!--SCRIPTS END-->
+</body>
+</html>

@@ -1,0 +1,121 @@
+<div class="content" ng-cloak>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="well m-top-50">
+                <form ng-submit="submitSignupForm()" name="signup" class="form-horizontal">
+                    <h3 class="text-center">Create an account</h3>
+                    <div class="alert alert-dismissible alert-danger" ng-show="showAlert">
+                        <button type="button" class="close" ng-click="toggleAlert()">&times;</button>
+                        <span>{{ signupForm.error.email[0].message }}</span>
+                    </div>
+                    <fieldset>
+                        <div class="form-group has-feedback"
+                             ng-class="{'has-error':signup.firstName.$invalid && signup.firstName.$dirty}">
+                            <label class="col-md-4 control-label">First Name</label>
+                            <div class="col-md-8">
+                                <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="First Name"
+                                        name="firstName"
+                                        ng-model="signupForm.firstName"
+                                        ng-maxlength="30"
+                                        required>
+                                <span ng-show="signup.firstName.$invalid && signup.firstName.$dirty" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                                <span class="help-block has-error" ng-show="signup.firstName.$invalid && signup.firstName.$dirty">
+                                    <span ng-show="signup.firstName.$error.required">First name is required.</span>
+                                    <span ng-show="signup.firstName.$error.maxlength">The first name can't be more than 30 characters.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback"
+                             ng-class="{'has-error':signup.lastName.$invalid && signup.lastName.$dirty}">
+                            <label class="col-md-4 control-label">Last Name</label>
+                            <div class="col-md-8">
+                                <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Last Name"
+                                        name="lastName"
+                                        ng-model="signupForm.lastName"
+                                        ng-maxlength="30"
+                                        required>
+                                <span ng-show="signup.lastName.$invalid && signup.lastName.$dirty" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                                <span class="help-block has-error" ng-show="signup.firstName.$invalid && signup.firstName.$dirty">
+                                    <span ng-show="signup.lastName.$error.required">Last name is required.</span>
+                                    <span ng-show="signup.lastName.$error.maxlength">The last name can't be more than 30 characters.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback"
+                             ng-class="{'has-error':signup.email.$invalid && signup.email.$dirty}">
+                            <label class="col-md-4 control-label">Email Address</label>
+                            <div class="col-md-8">
+                                <input
+                                        type="email"
+                                        class="form-control"
+                                        placeholder="Email Address"
+                                        name="email"
+                                        ng-model="signupForm.email"
+                                        required>
+                                <span ng-show="signup.email.$invalid && signup.email.$dirty" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                                <span class="help-block has-error" ng-show="signup.email.$invalid && signup.email.$dirty">
+                                    <span ng-show="signup.email.$error.required">Email address is required.</span>
+                                    <span ng-show="signup.email.$error.email">Email address is invalid.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback"
+                             ng-class="{'has-error':signup.password.$invalid && signup.password.$dirty}">
+                            <label class="col-md-4 control-label">Password</label>
+                            <div class="col-md-8">
+                                <input
+                                        type="password"
+                                        class="form-control"
+                                        placeholder="Password"
+                                        name="password"
+                                        ng-model="signupForm.password"
+                                        id="password"
+                                        ng-minlength="6"
+                                        compare-to="signupForm.confirmPassword"
+                                        required>
+                                <span ng-show="signup.password.$invalid && signup.password.$dirty" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                                <span class="help-block has-error" ng-show="signup.password.$invalid && signup.password.$dirty">
+                                    <span ng-show="signup.password.$error.required">Password is required.</span>
+                                    <span ng-show="signup.password.$error.minlength">Password must be at least 6 characters.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label class="col-md-4 control-label">Confirm Password</label>
+                            <div class="col-md-8">
+                                <input
+                                        type="password"
+                                        class="form-control"
+                                        placeholder="Confirm Password"
+                                        name="confirmPassword"
+                                        ng-model="signupForm.confirmPassword"
+                                        required>
+                                <span ng-show="signup.password.$dirty" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                                <span class="help-block has-error" ng-show="signup.confirmPassword.$dirty && signup.confirmPassword.$invalid">
+                                    <span ng-show="signup.password.$error.compareTo">Password must match.</span>
+                                    <span ng-show="signup.confirmPassword.$error.required">Confirmation password is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4">
+                                <button class="btn btn-success" type="submit" ng-disabled="signup.$invalid">
+                                    <span ng-show="!signupForm.loading">Create Account</span>
+                                    <span ng-show="signupForm.loading">Creating your account...</span>
+                                </button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+                    </fieldset>
+                </form>
+                <p class="text-center m-top-20">If you have an account please login <a href="#/">here</a>!</p>
+            </div>
+        </div>
+    </div>
+</div>

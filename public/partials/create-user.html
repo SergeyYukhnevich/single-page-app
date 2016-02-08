@@ -1,0 +1,161 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/">Single Page App</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="nav navbar-nav">
+                <li><a href="#/">Home</a></li>
+                <li class="active"><a href="#/users">Users</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" ng-click="logout()">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2>Here you can create new user!</h2>
+    </div>
+</div>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well">
+                <form ng-submit="createUser.submit()" name="create" class="form-horizontal">
+                    <div class="alert alert-dismissible alert-danger" ng-show="createUser.showAlert">
+                        <button type="button" class="close" ng-click="createUser.toggleAlert()">&times;</button>
+                        <span>{{ createUser.error.email[0].message }}</span>
+                    </div>
+                    <fieldset>
+                        <div class="form-group has-feedback"
+                             ng-class="{'has-error':create.firstName.$invalid && create.firstName.$dirty}">
+                            <label class="col-md-2 control-label">First Name</label>
+                            <div class="col-md-10">
+                                <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="First Name"
+                                        name="firstName"
+                                        ng-model="createUser.data.firstName"
+                                        ng-maxlength="30"
+                                        required>
+                                <span ng-show="create.firstName.$invalid && create.firstName.$dirty" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                                <span class="help-block has-error" ng-show="create.firstName.$invalid && create.firstName.$dirty">
+                                    <span ng-show="create.firstName.$error.required">First name is required.</span>
+                                    <span ng-show="create.firstName.$error.maxlength">The first name can't be more than 30 characters.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback"
+                             ng-class="{'has-error':create.lastName.$invalid && create.lastName.$dirty}">
+                            <label class="col-md-2 control-label">Last Name</label>
+                            <div class="col-md-10">
+                                <input
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="Last Name"
+                                        name="lastName"
+                                        ng-model="createUser.data.lastName"
+                                        ng-maxlength="30"
+                                        required>
+                                <span ng-show="create.lastName.$invalid && create.lastName.$dirty" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                                <span class="help-block has-error" ng-show="create.firstName.$invalid && create.firstName.$dirty">
+                                    <span ng-show="create.lastName.$error.required">Last name is required.</span>
+                                    <span ng-show="create.lastName.$error.maxlength">The last name can't be more than 30 characters.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback"
+                             ng-class="{'has-error':create.email.$invalid && create.email.$dirty}">
+                            <label class="col-md-2 control-label">Email Address</label>
+                            <div class="col-md-10">
+                                <input
+                                        type="email"
+                                        class="form-control"
+                                        placeholder="Email Address"
+                                        name="email"
+                                        ng-model="createUser.data.email"
+                                        required>
+                                <span ng-show="create.email.$invalid && create.email.$dirty" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                                <span class="help-block has-error" ng-show="create.email.$invalid && create.email.$dirty">
+                                    <span ng-show="create.email.$error.required">Email address is required.</span>
+                                    <span ng-show="create.email.$error.email">Email address is invalid.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Role</label>
+                            <div class="col-md-10">
+                                <select
+                                        class="form-control"
+                                        name="role"
+                                        ng-model="createUser.data.role"
+                                        required>
+                                    <option value="user">User</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback"
+                             ng-class="{'has-error':create.password.$invalid && create.password.$dirty}">
+                            <label class="col-md-2 control-label">Password</label>
+                            <div class="col-md-10">
+                                <input
+                                        type="password"
+                                        class="form-control"
+                                        placeholder="Password"
+                                        name="password"
+                                        ng-model="createUser.data.password"
+                                        id="password"
+                                        ng-minlength="6"
+                                        compare-to="createUser.data.confirmPassword"
+                                        required>
+                                <span ng-show="create.password.$invalid && create.password.$dirty" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                                <span class="help-block has-error" ng-show="create.password.$invalid && create.password.$dirty">
+                                    <span ng-show="create.password.$error.required">Password is required.</span>
+                                    <span ng-show="create.password.$error.minlength">Password must be at least 6 characters.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label class="col-md-2 control-label">Confirm Password</label>
+                            <div class="col-md-10">
+                                <input
+                                        type="password"
+                                        class="form-control"
+                                        placeholder="Confirm Password"
+                                        name="confirmPassword"
+                                        ng-model="createUser.data.confirmPassword"
+                                        required>
+                                <span ng-show="create.password.$dirty" class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+                                <span class="help-block has-error" ng-show="create.confirmPassword.$dirty && create.confirmPassword.$invalid">
+                                    <span ng-show="create.password.$error.compareTo">Password must match.</span>
+                                    <span ng-show="create.confirmPassword.$error.required">Confirmation password is required.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-10 col-md-offset-2">
+                                <button class="btn btn-success" type="submit" ng-disabled="create.$invalid">
+                                    <span ng-show="!createUser.loading">Create new user</span>
+                                    <span ng-show="createUser.loading">Creating new user...</span>
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
