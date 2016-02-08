@@ -34,13 +34,17 @@ module.exports.routes = {
 
   // handling GET requests
   'GET /': 'UserController.isAuthorized',
-  'GET /login': { view: 'login' },
-  'GET /signup': { view: 'signup' },
+  'GET /login': 'UserController.isAuthorized',
+  'GET /users': 'UserController.getAllUsers',
+  'GET /users/edit/:id': 'UserController.getOneUser',
 
   // handling POST requests
   'POST /login': 'UserController.login',
   'POST /logout': 'UserController.logout',
-  'POST /signup': 'UserController.signup'
+  'POST /signup': 'UserController.signup',
+  'POST /users/create': 'UserController.createUser',
+  'POST /users/edit/:id': 'UserController.editUser',
+  'POST /users/remove/:id': 'UserController.removeUser'
 
   /***************************************************************************
   *                                                                          *

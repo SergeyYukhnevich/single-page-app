@@ -98,19 +98,106 @@ module.exports = {
 
     isAuthorized: function (req, res) {
 
-        if (!req.session.userId) return res.redirect('/login');
+        if (!req.session.userId) return res.location('/login').view('shared/layoutPublic');
 
         User.findOne(req.session.userId, function (err, user) {
             if (err) return res.negotiate(err);
-            if (!user) return res.redirect('/login');
-            return res.json({
-                id: user.id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                lastLoginDate: user.lastLoginDate,
-                role: user.role
+            if (!user) return res.location('/login').view('shared/layoutPublic');
+            return res.location('/').view('shared/layoutPrivate', {
+                user: {
+                    id: user.id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    lastLoginDate: user.lastLoginDate,
+                    role: user.role
+                }
             });
+        });
+
+    },
+
+    getAllUsers: function (req, res) {
+
+        User.find({}, function (err, users) {
+            if (err) return res.negotiate(err);
+            return res.json(users);
+        });
+
+    },
+
+    getOneUser: function (req, res) {
+
+        User.findOne(req.param('id'), function (err, user) {
+            if (err) return res.negotiate(err);
+            return res.json(user);
+        });
+
+    },
+
+    createUser: function (req, res) {
+
+        require('machinepack-passwords').encryptPassword({
+            password: req.param('password'),
+            difficulty: 10
+        }).exec({
+            error: function (err) {
+                return res.negotiate(err);
+            },
+            success: function (encryptedPassword) {
+                User.create({
+                    firstName: req.param('firstName'),
+                    lastName: req.param('lastName'),
+                    email: req.param('email'),
+                    encryptedPassword: encryptedPassword,
+                    role: req.param('role'),
+                    lastLoginDate: new Date()
+                }, function (err, createdUser) {
+                    if (err) {
+                        return res.badRequest(err.invalidAttributes);
+                    }
+                    return res.ok();
+                });
+            }
+        });
+
+    },
+
+    editUser: function (req, res) {
+
+        User.findOne(req.param('id'), function (err, user) {
+
+            if (err) return res.negotiate(err);
+            if (!user) return res.notFound();
+            if (req.param('firstName')) user.firstName = req.param('firstName');
+            if (req.param('lastName')) user.lastName = req.param('lastName');
+            if (req.param('role')) user.role = req.param('role');
+
+            user.save(function (err, user) {
+                if (err) return res.negotiate(err);
+                res.ok();
+            });
+
+        });
+
+    },
+
+    removeUser: function (req, res) {
+
+        User.findOne(req.param('id'), function (err, user) {
+
+            if (err) return res.negotiate(err);
+            if (!user) return res.notFound();
+
+            user.destroy(function (err, user) {
+                if (err) return res.negotiate(err);
+                if (user.id == req.session.userId) {
+                    req.session.userId = null;
+                    return res.redirect('/');
+                }
+                res.ok();
+            });
+
         });
 
     }
